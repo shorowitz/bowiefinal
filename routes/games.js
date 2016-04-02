@@ -14,7 +14,6 @@ const key = process.env.KEY;
 var section;
 
 games.post('/search', getAPI, db.createGame, (req, res) => {
-  console.log('res.data on route', res.data)
   res.send(res.data)
   });
 
