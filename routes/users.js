@@ -16,21 +16,9 @@ users.get('/', (req, res) => {
   res.json({data: 'success'});
 });
 
-// users.get('/home', expressJWT({secret: SECRET}), (req, res) => {
-//   console.log('im in the home')
-//   console.log(req.user);
-//   // console.log(token)()
-//   // console.log(req);
-//   // var decoded = jwt.decode(req.headers.authorization);
-//   // console.log(decoded)
-//   //  console.log('im decoded' + decoded)
-//    res.json({data: 'Success'})
-// })
-
 users.post('/', usersDB.createUser, (req,res) => {
   console.log('getting to users path')
   res.status(201).json({data: 'success'})
-
 });
 
 users.post('/login', usersDB.loginUser, (req, res) => {
@@ -39,10 +27,5 @@ users.post('/login', usersDB.loginUser, (req, res) => {
   res.json({agent: res.rows, token: token })
 
 });
-
-
-
-
-
 
 module.exports = users;

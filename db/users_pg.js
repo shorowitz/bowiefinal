@@ -26,10 +26,11 @@ function createUser(req, res, next) {
   createSecure(req.body.email, req.body.password, req.body.username, saveUser)
 
   function saveUser(email, hash, username) {
-    db.none("INSERT INTO users (email, password_digest, username) VALUES ($1, $2, $3);",
+    db.none("INSERT INTO users (email, password_digest, username) VALUES ($1, $2, $3) RETURNING email, password_digest;",
       [email, hash, username])
       .then((data) => {
         console.log(data)
+        res.rows = data;
         next()
       })
       .catch(() => {

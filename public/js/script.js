@@ -9,6 +9,8 @@ const SignUp = require('./authComponents/signup.js');
 const Login = require('./authComponents/login.js');
 const Logout = require('./authComponents/logout.js');
 
+const Search = require('./gameComponents/search.js');
+
 const auth = require('./auth');
 const moment = require('moment');
 
@@ -34,22 +36,25 @@ const App = React.createClass({
   render : function() {
     return (
       <div className="container">
-        <div>
+        <header>
+          <nav>
             <ul id="nav">
               <li>
                 {this.state.loggedIn ? (
                   <div>
-                    <button className="button"><Link to="/logout"> Log out </Link></button>
+                    <a className="button"><Link to="/logout"> Log out </Link></a>
+                    <a><Link to="/search">Start a Game</Link></a>
                   </div>
                 ) : (
                   <div>
-                    <button><Link to="/login"> Sign in </Link></button>
-                    <button><Link to="/signup"> Sign Up </Link></button>
+                    <a><Link to="/login"> Sign In </Link></a>
+                    <a><Link to="/signup"> Sign Up </Link></a>
                   </div>
                 )}
               </li>
             </ul>
-          </div>
+          </nav>
+        </header>
         {this.props.children || <p>You are {!this.state.loggedIn && 'not'} logged in.</p>}
       </div>
     )
@@ -71,6 +76,7 @@ render((
       <Route path="login" component={Login} />
       <Route path="logout" component={Logout} />
       <Route path="signup" component={SignUp} />
+      <Route path="search" component={Search} onEnter={requireAuth} />
     </Route>
   </Router>
 ), document.getElementById('container'))
