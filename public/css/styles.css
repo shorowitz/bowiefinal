@@ -1,0 +1,21 @@
+#nav {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  overflow: hidden;
+}
+
+#nav li {
+  display: inline;
+}
+
+#nav a {
+  color:black;
+  padding: 10px;
+  text-decoration: none;
+  line-height: 2.5;
+}
+
+#nav a:hover {
+  text-decoration: underline;
+}
