@@ -23,7 +23,7 @@ CREATE TABLE photos (
   caption TEXT,
   headline TEXT,
   article_url TEXT,
-  pub_date TIMESTAMP,
+  pub_date TEXT,
   section TEXT,
   subsection TEXT,
   game_id INTEGER REFERENCES games

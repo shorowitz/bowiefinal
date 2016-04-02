@@ -13,7 +13,8 @@ const key = process.env.KEY;
 
 var section;
 
-games.post('/search', getAPI, (req, res) => {
+games.post('/search', getAPI, db.createGame, (req, res) => {
+  console.log('res.data on route', res.data)
   res.send(res.data)
   });
 
@@ -27,7 +28,7 @@ function getAPI (req, result, next) {
         var obj = {
           section: nyt.results[i].section,
           subsection: nyt.results[i].subsection,
-          headline: nyt.results[i].headline,
+          headline: nyt.results[i].title,
           pub_date: nyt.results[i].published_date,
           article_url: nyt.results[i].url,
           image_url: nyt.results[i].multimedia[4].url,
@@ -37,6 +38,7 @@ function getAPI (req, result, next) {
       }
     }
     result.data = data;
+    console.log(result.data)
     next();
   })
 };

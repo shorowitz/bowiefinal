@@ -4,7 +4,7 @@ const auth = require('../auth')
 const Search = React.createClass({
   getInitialState: function(){
     return {
-      results:{}
+      photos:[]
     }
   },
   handleSearch:function(event){
@@ -22,13 +22,16 @@ const Search = React.createClass({
       }
     }).done((data)=>{
       console.log(data)
+        // data.forEach((el) => {
+        //   this.state.photos[el.id] = el;
+        // })
+        this.state.photos = data
+        this.setState({ photos : this.state.photos})
+          console.log(this.state.photos)
     })
+
   },
-  saveSearchResults:function(el, ind){
-    this.state.results[ind]=el.full_name
-    this.setState({results:this.state.results})
-    console.log(this.state.results)
-  },
+
   renderSearchResults:function(key){
     return(
       <SearchResult key={key} index={key} repo={this.state.results[key]} />
@@ -42,7 +45,7 @@ const Search = React.createClass({
           <input type="text" id="word" ref="word" placeholder="keyword"></input>
           <button id="SearchButton" type="submit">Search</button>
         </form>
-        <div>{Object.keys(this.state.results).map(this.renderSearchResults)}</div>
+
       </div>
     )
   },
