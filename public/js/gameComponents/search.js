@@ -1,5 +1,8 @@
 const React = require('react')
 const auth = require('../auth')
+const $ = require('jquery')
+require('jquery-ui')
+const ph = require('../photos.js')
 
 const Search = React.createClass({
   getInitialState: function(){
@@ -12,6 +15,7 @@ const Search = React.createClass({
     var word = this.refs.word.value
     this.searchKeyword(word)
     this.refs.searchForm.reset()
+    // $('#search').draggable()
   },
   searchKeyword:function(word){
     $.ajax({
@@ -22,12 +26,9 @@ const Search = React.createClass({
       }
     }).done((data)=>{
       console.log(data)
-        // data.forEach((el) => {
-        //   this.state.photos[el.id] = el;
-        // })
         this.state.photos = data
         this.setState({ photos : this.state.photos})
-          console.log(this.state.photos)
+        ph.showPhotos(this.state.photos)
     })
 
   },
@@ -39,7 +40,7 @@ const Search = React.createClass({
   },
   render:function(){
     return (
-      <div>
+      <div id="search">
         <form ref="searchForm" onSubmit={this.handleSearch}>
           <label htmlFor="word">search by keyword or phrase</label>
           <input type="text" id="word" ref="word" placeholder="keyword"></input>

@@ -19,3 +19,14 @@
 #nav a:hover {
   text-decoration: underline;
 }
+
+.photos img{
+  width: 60%;
+  height: auto;
+}
+
+.target {
+  width: 50px;
+  height: 50px;
+  border: solid black;
+}
