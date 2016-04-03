@@ -33,11 +33,11 @@ const Search = React.createClass({
 
   },
 
-  renderSearchResults:function(key){
-    return(
-      <SearchResult key={key} index={key} repo={this.state.results[key]} />
-    )
-  },
+  // renderSearchResults:function(key){
+  //   return(
+  //     <SearchResult key={key} index={key} repo={this.state.results[key]} />
+  //   )
+  // },
   render:function(){
     return (
       <div id="search">

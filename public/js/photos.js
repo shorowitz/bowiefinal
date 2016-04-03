@@ -13,7 +13,9 @@ function showPhotos(data) {
     $photos.append($box);
 
     var $target = $('<div>');
-    $target.addClass('target').attr('id', data[i].id);
+    $target.addClass('target').attr('id', data[i].id).droppable({
+
+    });
     $box.append($target);
   }
 
@@ -22,8 +24,12 @@ function showPhotos(data) {
    for (var i=0; i < shuffled.length; i++) {
      var $textbox = $('<div>');
      $textbox.text(shuffled[i].caption)
-     $textbox.addClass('captions').attr('id', shuffled[i].id);
-     $captions.append($textbox)
+     $textbox.addClass('captions').attr('id', shuffled[i].id).draggable({
+         containment: '#j-container',
+         cursor: 'move',
+         snap: '#j-container'
+        });
+     $captions.append($textbox);
    }
 
 

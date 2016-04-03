@@ -43,3 +43,7 @@
 .captions {
   border: 1px solid black;
 }
+
+.ui-draggable-dragging {
+  background-color: yellow;
+}
