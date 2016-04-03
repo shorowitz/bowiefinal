@@ -11,9 +11,13 @@ const expressJWT = require('express-jwt');
 const jwt = require('jsonwebtoken');
 const key = process.env.KEY;
 
+games.post('/start', expressJWT({secret: SECRET}), db.createGame, (req, res) => {
+  res.send(res.data)
+})
+
 var section;
 
-games.post('/search', getAPI, db.createGame, (req, res) => {
+games.post('/search', expressJWT({secret: SECRET}), getAPI, db.insertPhotos, (req, res) => {
   res.send(res.data)
   });
 
@@ -37,7 +41,6 @@ function getAPI (req, result, next) {
       }
     }
     result.data = data;
-    console.log(result.data)
     next();
   })
 };

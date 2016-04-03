@@ -5,24 +5,46 @@ require('jquery-ui')
 const ph = require('../photos.js')
 
 const Search = React.createClass({
+
   getInitialState: function(){
     return {
       photos:[]
     }
   },
+
   handleSearch:function(event){
     event.preventDefault();
     var word = this.refs.word.value
-    this.searchKeyword(word)
+    // this.searchKeyword(word)
+    this.startGame(word)
     this.refs.searchForm.reset()
-    // $('#search').draggable()
   },
-  searchKeyword:function(word){
+
+  startGame: function(word){
+    $.ajax({
+      url:'/games/start',
+      type: 'POST',
+      beforeSend: function( xhr ) {
+         xhr.setRequestHeader("Authorization", "Bearer " + auth.getToken());
+       },
+      data: {
+        section: word,
+      }
+    }).done((game)=>{
+      this.searchKeyword(game)
+    })
+  },
+
+  searchKeyword: function(game){
     $.ajax({
       url:'/games/search',
       type: 'POST',
+      beforeSend: function( xhr ) {
+         xhr.setRequestHeader("Authorization", "Bearer " + auth.getToken());
+       },
       data: {
-        section: word,
+        section: game[0].keyword,
+        game: game[0].id
       }
     }).done((data)=>{
       console.log(data)
@@ -30,14 +52,8 @@ const Search = React.createClass({
         this.setState({ photos : this.state.photos})
         ph.showPhotos(this.state.photos)
     })
-
   },
 
-  // renderSearchResults:function(key){
-  //   return(
-  //     <SearchResult key={key} index={key} repo={this.state.results[key]} />
-  //   )
-  // },
   render:function(){
     return (
       <div id="search">
@@ -46,7 +62,6 @@ const Search = React.createClass({
           <input type="text" id="word" ref="word" placeholder="keyword"></input>
           <button id="SearchButton" type="submit">Search</button>
         </form>
-
       </div>
     )
   },
