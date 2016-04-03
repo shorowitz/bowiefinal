@@ -13,8 +13,10 @@ function showPhotos(data) {
     $photos.append($box);
 
     var $target = $('<div>');
-    $target.addClass('target').attr('id', data[i].id).droppable({
-
+    $target.addClass('target').data('number', data[i].id).attr('id', data[i].id).droppable({
+      accept: '.captions',
+      hoverClass: 'hovered',
+      drop: handleCaptionDrop
     });
     $box.append($target);
   }
@@ -24,17 +26,27 @@ function showPhotos(data) {
    for (var i=0; i < shuffled.length; i++) {
      var $textbox = $('<div>');
      $textbox.text(shuffled[i].caption)
-     $textbox.addClass('captions').attr('id', shuffled[i].id).draggable({
-         containment: '#j-container',
-         cursor: 'move',
-         snap: '#j-container'
-        });
+     $textbox.addClass('captions').data('number', shuffled[i].id).attr('id', shuffled[i].id).draggable({
+       containment: '#j-container',
+       cursor: 'move',
+       snap: '#j-container',
+       revert: true
+     });
      $captions.append($textbox);
    }
 
+   function handleCaptionDrop (event, ui) {
+     var target = $(this).data('number')
+     var caption = ui.draggable.data('number')
 
-
-
+     if (target == caption) {
+       ui.draggable.addClass( 'correct' );
+       ui.draggable.draggable( 'disable' );
+       $(this).droppable( 'disable' );
+       ui.draggable.position( { of: $(this), my: 'left top', at: 'left top' } );
+       ui.draggable.draggable( 'option', 'revert', false );
+     }
+   }
 }
 
 module.exports.showPhotos = showPhotos

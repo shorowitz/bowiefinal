@@ -36,7 +36,7 @@ function insertPhotos (req, res, next) {
         var queries = nytdata.map(function (d) {
             return t.one(`INSERT INTO photos(section, subsection, headline, pub_date, article_url, image_url, caption, game_id)
             VALUES($1, $2, $3, $4, $5, $6, $7, $8)
-            RETURNING id, image_url, caption`, [d.section, d.subsection, d.headline, d.pub_date, d.article_url, d.image_url, d.caption, req.body.game]);
+            RETURNING id, image_url, caption, game_id`, [d.section, d.subsection, d.headline, d.pub_date, d.article_url, d.image_url, d.caption, req.body.game]);
         });
         return t.batch(queries);
     })

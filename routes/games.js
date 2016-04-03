@@ -26,20 +26,20 @@ function getAPI (req, result, next) {
   request.get({url : 'http://api.nytimes.com/svc/topstories/v1/' + section + '.json?api-key=' + key}, function(error, response, body) {
     var nyt = JSON.parse(body);
     var data = [];
-    for (var i = 0; i < 15; i++) {
-      if (nyt.results[i].multimedia !== '' && nyt.results[i].multimedia[4].caption !== '') {
-        var obj = {
-          section: nyt.results[i].section,
-          subsection: nyt.results[i].subsection,
-          headline: nyt.results[i].title,
-          pub_date: nyt.results[i].published_date,
-          article_url: nyt.results[i].url,
-          image_url: nyt.results[i].multimedia[4].url,
-          caption: nyt.results[i].multimedia[4].caption
-        }
+      for (var i = 0; i < nyt.results.length; i++) {
+        if (nyt.results[i].multimedia !== '' && nyt.results[i].multimedia[4].caption !== '') {
+          var obj = {
+            section: nyt.results[i].section,
+            subsection: nyt.results[i].subsection,
+            headline: nyt.results[i].title,
+            pub_date: nyt.results[i].published_date,
+            article_url: nyt.results[i].url,
+            image_url: nyt.results[i].multimedia[4].url,
+            caption: nyt.results[i].multimedia[4].caption
+          }
         data.push(obj)
+        }
       }
-    }
     result.data = data;
     next();
   })
