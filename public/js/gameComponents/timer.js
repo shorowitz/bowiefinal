@@ -17,11 +17,16 @@ getInitialState: function() {
 },
 
   componentDidMount: function() {
+    window.timerStop = this.stop
     this.interval = setInterval(this.tick, 1000)
   },
 
   componentWillUnmount: function() {
-    clearInterval(this.interval);
+    clearInterval(this.interval)
+  },
+
+  stop: function() {
+    clearInterval(this.interval)
   },
 
   render: function() {

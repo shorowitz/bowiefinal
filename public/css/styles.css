@@ -39,11 +39,13 @@
 }
 
 #j-container {
-  margin: 0 auto;
-  width: 90%;
+  /*margin: 0;
+  width: 90%;*/
 }
 
 #captions {
+  /*margin: auto;
+  width: 95%;*/
   display: flex;
   flex-wrap: wrap;
 }

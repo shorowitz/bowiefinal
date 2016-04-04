@@ -78,7 +78,6 @@ render((
       <Route path="logout" component={Logout} />
       <Route path="signup" component={SignUp} />
       <Route path="search" component={Search} onEnter={requireAuth} />
-      <Route path="timer" component={Timer} onEnter={requireAuth} />
     </Route>
   </Router>
 ), document.getElementById('container'))
