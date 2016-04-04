@@ -18,12 +18,25 @@ if(process.env.ENVIRONMENT === 'production') {
 var db = pgp(cn);
 
 function createGame (req, res, next) {
+  db.any(`INSERT INTO games(user_id, keyword)
+  VALUES($1, $2)
+  RETURNING id, keyword`, [req.user.id, req.body.section])
+  .then(function(data) {
+    res.data = data;
+    next()
+  })
+  .catch(function(error) {
+    console.log(error)
+  })
+}
+
+function insertPhotos (req, res, next) {
   db.tx(function (t) {
     nytdata = res.data
         var queries = nytdata.map(function (d) {
-            return t.one(`INSERT INTO photos(section, subsection, headline, pub_date, article_url, image_url, caption)
-            VALUES($1, $2, $3, $4, $5, $6, $7)
-            RETURNING id, image_url, caption`, [d.section, d.subsection, d.headline, d.pub_date, d.article_url, d.image_url, d.caption]);
+            return t.one(`INSERT INTO photos(section, subsection, headline, pub_date, article_url, image_url, caption, game_id)
+            VALUES($1, $2, $3, $4, $5, $6, $7, $8)
+            RETURNING id, image_url, caption, game_id`, [d.section, d.subsection, d.headline, d.pub_date, d.article_url, d.image_url, d.caption, req.body.game]);
         });
         return t.batch(queries);
     })
@@ -37,3 +50,4 @@ function createGame (req, res, next) {
 }
 
 module.exports.createGame = createGame;
+module.exports.insertPhotos = insertPhotos;

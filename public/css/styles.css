@@ -1,3 +1,10 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+
 #nav {
   margin: 0;
   padding: 0;
@@ -18,4 +25,46 @@
 
 #nav a:hover {
   text-decoration: underline;
+}
+
+.photos img{
+  width: 100%;
+  height: auto;
+}
+
+.target {
+  width: 100%;
+  height: 60px;
+  border: solid black;
+}
+
+#j-container {
+  margin: 0 auto;
+  width: 90%;
+}
+
+#captions {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+#photos {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.photos {
+  width: 300px;
+  margin: 10px;
+}
+
+.captions {
+  border: 1px solid black;
+  /*max-width: 300px;*/
+  width: 300px;
+  margin: 5px;
+}
+
+.ui-draggable-dragging {
+  background-color: yellow;
 }

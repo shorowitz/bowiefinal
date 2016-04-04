@@ -10,6 +10,7 @@ const Login = require('./authComponents/login.js');
 const Logout = require('./authComponents/logout.js');
 
 const Search = require('./gameComponents/search.js');
+const Timer = require('./gameComponents/timer.js')
 
 const auth = require('./auth');
 const moment = require('moment');
@@ -77,6 +78,7 @@ render((
       <Route path="logout" component={Logout} />
       <Route path="signup" component={SignUp} />
       <Route path="search" component={Search} onEnter={requireAuth} />
+      <Route path="timer" component={Timer} onEnter={requireAuth} />
     </Route>
   </Router>
 ), document.getElementById('container'))
