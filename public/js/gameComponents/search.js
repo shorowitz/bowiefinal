@@ -3,6 +3,8 @@ const auth = require('../auth')
 const $ = require('jquery')
 require('jquery-ui')
 const ph = require('../photos.js')
+const Link = require('react-router').Link
+const Timer = require('./timer')
 
 const $search = $('#search')
 
@@ -94,6 +96,7 @@ const Search = React.createClass({
         </form>
       </div>
       <h1>{this.state.section}</h1>
+      <Link to="timer"><button>Start</button></Link>
     </div>
     )
   },
