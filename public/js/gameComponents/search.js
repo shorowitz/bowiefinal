@@ -3,17 +3,20 @@ const auth = require('../auth')
 const $ = require('jquery')
 require('jquery-ui')
 const ph = require('../photos.js')
+const moment = require('moment')
 const Link = require('react-router').Link
-const Timer = require('./timer')
+const Results = require('./results')
 
 const $search = $('#search')
+const $jcontainer = $('#j-container')
 
 const Search = React.createClass({
 
   getInitialState: function(){
     return {
       photos:[],
-      section: ''
+      section: '',
+      secondsElapsed : 0
     }
   },
 
@@ -57,9 +60,42 @@ const Search = React.createClass({
       console.log(data)
         localStorage.game = data[0].game_id
         this.state.photos = data
-        this.setState({ photos : this.state.photos})
+        this.setState({photos : this.state.photos})
         ph.showPhotos(this.state.photos)
+        this.startTimer()
+    })
+  },
 
+  tick: function() {
+    this.state.secondsElapsed++
+    this.setState({secondsElapsed : this.state.secondsElapsed})
+  },
+
+  startTimer: function() {
+    window.timerStop = this.stop
+    this.interval = setInterval(this.tick, 1000)
+  },
+
+  stop: function() {
+    clearInterval(this.interval)
+    this.submitScore(this.state.secondsElapsed)
+  },
+
+  submitScore: function (seconds) {
+    $.ajax({
+      url: 'games/start',
+      type: 'PUT',
+      beforeSend: function( xhr ) {
+         xhr.setRequestHeader("Authorization", "Bearer " + auth.getToken());
+       },
+      data: {
+        score: seconds,
+        game: localStorage.game
+      }
+    }).done((data)=>{
+      this.state.section = <Link to="results"> Nice Job! See How Your Score Stacks Up Against Others and Get More Information About The Photos You Saw </Link>
+      this.setState({section : this.state.section})
+      $jcontainer.empty()
     })
   },
 
@@ -92,11 +128,11 @@ const Search = React.createClass({
             <option value="magazine">Magazine</option>
             <option value="realestate">Real Estate</option>
           </select>
-          <button id="SearchButton" type="submit">Get Game</button>
+          <button id="SearchButton" type="submit"> START! </button>
         </form>
       </div>
       <h1>{this.state.section}</h1>
-      <Link to="timer"><button>Start</button></Link>
+      <h3>Seconds Elapsed: {this.state.secondsElapsed}</h3>
     </div>
     )
   },
