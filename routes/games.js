@@ -19,9 +19,15 @@ games.put('/start', expressJWT({secret: SECRET}), db.insertScore, (req, res) => 
   res.send(res.data)
 });
 
-games.get('/start', expressJWT({secret: SECRET}), db.getUserData, (req, res) => {
+games.get('/score/:section', expressJWT({secret: SECRET}), db.getBestSectionScore, (req, res) => {
   res.send(res.data)
 })
+
+games.get('/:id', expressJWT({secret: SECRET}), db.getGameInfo, (req, res) => {
+  res.send(res.data)
+})
+
+
 
 var section;
 
