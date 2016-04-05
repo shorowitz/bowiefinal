@@ -49,5 +49,18 @@ function insertPhotos (req, res, next) {
     });
 }
 
+function insertScore (req, res, next) {
+  db.any(`UPDATE games
+    SET SCORE = $1
+    WHERE id = $2;`, [parseInt(req.body.score), parseInt(req.body.game)])
+  .then(function(data) {
+    next();
+  })
+  .catch(function(error) {
+    console.log(error)
+  })
+}
+
 module.exports.createGame = createGame;
 module.exports.insertPhotos = insertPhotos;
+module.exports.insertScore = insertScore;

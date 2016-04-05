@@ -13,7 +13,11 @@ const key = process.env.KEY;
 
 games.post('/start', expressJWT({secret: SECRET}), db.createGame, (req, res) => {
   res.send(res.data)
-})
+});
+
+games.put('/start',expressJWT({secret: SECRET}), db.insertScore, (req, res) => {
+  res.send(res.data)
+});
 
 var section;
 

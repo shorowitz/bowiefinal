@@ -4,10 +4,11 @@ const $ = require('jquery')
 require('jquery-ui')
 const ph = require('../photos.js')
 const moment = require('moment')
-// const Link = require('react-router').Link
-// const Timer = require('./timer')
+const Link = require('react-router').Link
+const Results = require('./results')
 
 const $search = $('#search')
+const $jcontainer = $('#j-container')
 
 const Search = React.createClass({
 
@@ -59,7 +60,7 @@ const Search = React.createClass({
       console.log(data)
         localStorage.game = data[0].game_id
         this.state.photos = data
-        this.setState({ photos : this.state.photos})
+        this.setState({photos : this.state.photos})
         ph.showPhotos(this.state.photos)
         this.startTimer()
     })
@@ -77,6 +78,25 @@ const Search = React.createClass({
 
   stop: function() {
     clearInterval(this.interval)
+    this.submitScore(this.state.secondsElapsed)
+  },
+
+  submitScore: function (seconds) {
+    $.ajax({
+      url: 'games/start',
+      type: 'PUT',
+      beforeSend: function( xhr ) {
+         xhr.setRequestHeader("Authorization", "Bearer " + auth.getToken());
+       },
+      data: {
+        score: seconds,
+        game: localStorage.game
+      }
+    }).done((data)=>{
+      this.state.section = <Link to="results"> Nice Job! See How Your Score Stacks Up Against Others and Get More Information About The Photos You Saw </Link>
+      this.setState({section : this.state.section})
+      $jcontainer.empty()
+    })
   },
 
   componentWillUnmount : function() {
