@@ -1,7 +1,6 @@
 DROP TABLE if exists users CASCADE;
 DROP TABLE if exists games CASCADE;
 DROP TABLE if exists photos CASCADE;
-DROP TABLE if exists keywords CASCADE;
 
 CREATE TABLE users (
   id SERIAL PRIMARY KEY UNIQUE,
@@ -26,11 +25,6 @@ CREATE TABLE photos (
   pub_date TEXT,
   section TEXT,
   subsection TEXT,
+  abstract TEXT,
   game_id INTEGER REFERENCES games
-);
-
-CREATE TABLE keywords (
-  id SERIAL PRIMARY KEY UNIQUE,
-  value TEXT,
-  photo_id INTEGER REFERENCES photos
 );
