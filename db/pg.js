@@ -50,7 +50,7 @@ function insertPhotos (req, res, next) {
 }
 
 function insertScore (req, res, next) {
-  db.any(`UPDATE games
+  db.none(`UPDATE games
     SET SCORE = $1
     WHERE id = $2;`, [parseInt(req.body.score), parseInt(req.body.game)])
   .then(function(data) {
@@ -61,6 +61,20 @@ function insertScore (req, res, next) {
   })
 }
 
+function getUserData (req, res, next) {
+  db.any(`SELECT * FROM games
+    WHERE user_id = $1
+    AND score IS NOT NULL;`, [req.user.id])
+  .then(function(data) {
+    res.data = data;
+    next();
+  })
+  .catch(function(error) {
+    console.log(error)
+  })
+}
+
 module.exports.createGame = createGame;
 module.exports.insertPhotos = insertPhotos;
 module.exports.insertScore = insertScore;
+module.exports.getUserData = getUserData;

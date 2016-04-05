@@ -15,9 +15,13 @@ games.post('/start', expressJWT({secret: SECRET}), db.createGame, (req, res) => 
   res.send(res.data)
 });
 
-games.put('/start',expressJWT({secret: SECRET}), db.insertScore, (req, res) => {
+games.put('/start', expressJWT({secret: SECRET}), db.insertScore, (req, res) => {
   res.send(res.data)
 });
+
+games.get('/start', expressJWT({secret: SECRET}), db.getUserData, (req, res) => {
+  res.send(res.data)
+})
 
 var section;
 
