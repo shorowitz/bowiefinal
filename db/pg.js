@@ -34,9 +34,9 @@ function insertPhotos (req, res, next) {
   db.tx(function (t) {
     nytdata = res.data
         var queries = nytdata.map(function (d) {
-            return t.one(`INSERT INTO photos(section, subsection, headline, pub_date, article_url, image_url, caption, game_id)
-            VALUES($1, $2, $3, $4, $5, $6, $7, $8)
-            RETURNING id, image_url, caption, game_id`, [d.section, d.subsection, d.headline, d.pub_date, d.article_url, d.image_url, d.caption, req.body.game]);
+            return t.one(`INSERT INTO photos(abstract, section, subsection, headline, pub_date, article_url, image_url, caption, game_id)
+            VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9)
+            RETURNING id, image_url, caption, game_id`, [d.abstract, d.section, d.subsection, d.headline, d.pub_date, d.article_url, d.image_url, d.caption, req.body.game]);
         });
         return t.batch(queries);
     })
@@ -89,6 +89,18 @@ function getBestSectionScore (req, res, next) {
   })
 }
 
+function getArticleInfo (req, res, next) {
+  db.any(`SELECT * FROM photos
+    WHERE game_id = $1`, [req.params.id])
+    .then(function(data) {
+      res.data = data;
+      next();
+    })
+    .catch(function(error) {
+      console.log(error)
+    })
+}
+
 function getUserData (req, res, next) {
   db.any(`SELECT * FROM games
     WHERE user_id = $1
@@ -107,4 +119,5 @@ module.exports.insertPhotos = insertPhotos;
 module.exports.insertScore = insertScore;
 module.exports.getGameInfo = getGameInfo;
 module.exports.getBestSectionScore = getBestSectionScore;
+module.exports.getArticleInfo = getArticleInfo;
 module.exports.getUserData = getUserData;

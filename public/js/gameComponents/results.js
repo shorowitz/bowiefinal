@@ -11,6 +11,7 @@ const Results = React.createClass({
       score : 0,
       section : '',
       bestScore: '',
+      articles: {}
     }
   },
 
@@ -46,7 +47,33 @@ const Results = React.createClass({
       var seconds = "0" + (bestScore - minutes * 60)
       this.state.bestScore = minutes.substr(-2) + ":" + seconds.substr(-2)
       this.setState({bestScore: this.state.bestScore})
+      this.getArticles()
     })
+  },
+
+  getArticles : function() {
+    var saved = [];
+    $.ajax({
+      url: '/games/search/' + localStorage.game,
+      type: 'GET',
+      beforeSend: function( xhr ) {
+         xhr.setRequestHeader("Authorization", "Bearer " + auth.getToken());
+       }
+    }).done((data) => {
+      saved = data
+      saved.forEach((el) => {
+          this.state.articles[el.id] = el;
+        })
+        this.setState({articles : this.state.articles})
+        console.log(this.state.articles)
+    })
+  },
+
+  renderArticle : function (key) {
+    return (
+    <OneArticle key={key} index={key} details={this.state.articles[key]} />
+
+    )
   },
 
   render : function () {
@@ -54,6 +81,22 @@ const Results = React.createClass({
       <div>
         <h1> Your Time - {this.state.score}</h1>
         <h2>Time to beat for the {this.state.section} section is {this.state.bestScore}</h2>
+        <div> {Object.keys(this.state.articles).map(this.renderArticle)}</div>
+      </div>
+    )
+  }
+})
+
+const OneArticle = React.createClass({
+
+  render: function() {
+     moment(this.props.details.pub_date, moment.ISO_8601)
+    return(
+      <div>
+        <h3><a href={this.props.details.article_url}>{this.props.details.headline}</a></h3>
+        <h5>{this.props.details.abstract}</h5>
+        <div><img src={this.props.details.image_url} /></div>
+        <a>{this.props.details.caption}</a>
       </div>
     )
   }

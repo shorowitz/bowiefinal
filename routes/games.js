@@ -23,11 +23,9 @@ games.get('/score/:section', expressJWT({secret: SECRET}), db.getBestSectionScor
   res.send(res.data)
 })
 
-games.get('/:id', expressJWT({secret: SECRET}), db.getGameInfo, (req, res) => {
+games.get('/search/:id', expressJWT({secret: SECRET}), db.getArticleInfo, (req, res) => {
   res.send(res.data)
 })
-
-
 
 var section;
 
@@ -43,6 +41,7 @@ function getAPI (req, result, next) {
       for (var i = 0; i < nyt.results.length; i++) {
         if (nyt.results[i].multimedia !== '' && nyt.results[i].multimedia[4].caption !== '') {
           var obj = {
+            abstract: nyt.results[i].abstract,
             section: nyt.results[i].section,
             subsection: nyt.results[i].subsection,
             headline: nyt.results[i].title,
@@ -58,5 +57,9 @@ function getAPI (req, result, next) {
     next();
   })
 };
+
+games.get('/:id', expressJWT({secret: SECRET}), db.getGameInfo, (req, res) => {
+  res.send(res.data)
+})
 
 module.exports = games;
