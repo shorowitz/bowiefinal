@@ -20,6 +20,7 @@ const App = React.createClass({
   getInitialState : function() {
     return {
       loggedIn: auth.loggedIn(),
+      photos: []
     }
   },
 
@@ -33,6 +34,20 @@ const App = React.createClass({
     auth.onChange = this.updateAuth
     auth.login()
   },
+
+  componentDidMount : function () {
+    $.ajax({
+      url: '/home',
+      type: 'GET'
+    }).done((data) => {
+      console.log(data)
+    })
+  },
+
+  // showHome : function() {
+  //
+  // }
+// {this.props.children || this.showHome(this.state.photos)}
 
   render : function() {
     return (
@@ -57,6 +72,9 @@ const App = React.createClass({
           </nav>
         </header>
         {this.props.children || <p>You are {!this.state.loggedIn && 'not'} logged in.</p>}
+        <div>
+
+        </div>
       </div>
     )
   }

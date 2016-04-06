@@ -19,12 +19,14 @@ app.use(bodyParser.json());
 app.use(logger('dev'));
 
 const usersRoute = require('./routes/users');
-const gamesRoute = require('./routes/games')
+const gamesRoute = require('./routes/games');
+const homeRoute = require('./routes/home');
 
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/users', usersRoute);
 app.use('/games', gamesRoute);
+app.use('/home', homeRoute);
 
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname,'public/index.html'))
