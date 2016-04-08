@@ -14,13 +14,17 @@ const Results = require('./gameComponents/results.js')
 
 const auth = require('./auth');
 const moment = require('moment');
+const _ = require('underscore')
+const d3Test = require('./d3');
+const $ = require('jquery')
+
 
 
 const App = React.createClass({
   getInitialState : function() {
     return {
       loggedIn: auth.loggedIn(),
-      photos: []
+      photos: {}
     }
   },
 
@@ -36,18 +40,26 @@ const App = React.createClass({
   },
 
   componentDidMount : function () {
+    var saved =[]
     $.ajax({
       url: '/home',
       type: 'GET'
-    }).done((data) => {
-      console.log(data)
+    }).done((nytdata) => {
+      var data = _.shuffle(nytdata)
+      saved = data
+      saved.forEach((el) => {
+          this.state.photos[el.image] = el;
+        })
+        this.setState({photos : this.state.photos})
+        console.log(this.state.photos)
     })
   },
 
-  // showHome : function() {
-  //
-  // }
-// {this.props.children || this.showHome(this.state.photos)}
+  renderImages : function(key) {
+   return (
+    <OneImage key={key} index={key} details={this.state.photos[key]} />
+    )
+  },
 
   render : function() {
     return (
@@ -71,10 +83,28 @@ const App = React.createClass({
             </ul>
           </nav>
         </header>
-        {this.props.children || <p>You are {!this.state.loggedIn && 'not'} logged in.</p>}
-        <div>
+        {this.props.children ||
+          <div id="home">
+            <p>You are {!this.state.loggedIn && 'not'} logged in.</p>
 
-        </div>
+              <div className="grid">
+                {Object.keys(this.state.photos).map(this.renderImages)}
+              </div>
+
+          </div>}
+    </div>
+    )
+  }
+})
+
+const OneImage = React.createClass({
+
+
+  render: function() {
+
+    return(
+      <div className="grid-item">
+        <img src={this.props.details.image} />
       </div>
     )
   }
@@ -88,6 +118,8 @@ function requireAuth(nextState, replace) {
     })
   }
 }
+
+
 
 render((
   <Router history={browserHistory}>

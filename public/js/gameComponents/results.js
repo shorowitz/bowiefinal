@@ -92,12 +92,18 @@ const OneArticle = React.createClass({
   render: function() {
      moment(this.props.details.pub_date, moment.ISO_8601)
     return(
-      <div>
-        <h3><a href={this.props.details.article_url}>{this.props.details.headline}</a></h3>
-        <h5>{this.props.details.abstract}</h5>
-        <div><img src={this.props.details.image_url} /></div>
-        <a>{this.props.details.caption}</a>
-      </div>
+        <div id="f1_container">
+          <div id="f1_card" className="shadow">
+            <div className="front face">
+              <img src={this.props.details.image_url} />
+            </div>
+            <div className="back face center">
+              <h3><a href={this.props.details.article_url}>{this.props.details.headline}</a></h3>
+              <p>{this.props.details.abstract}</p>
+              <p>{this.props.details.caption}</p>
+            </div>
+          </div>
+        </div>
     )
   }
 })
