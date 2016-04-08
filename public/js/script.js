@@ -4,23 +4,18 @@ const browserHistory = require('react-router').browserHistory;
 const Router = require('react-router').Router;
 const Route = require('react-router').Route;
 const Link = require('react-router').Link;
-
 const SignUp = require('./authComponents/signup.js');
 const Login = require('./authComponents/login.js');
 const Logout = require('./authComponents/logout.js');
-
 const Search = require('./gameComponents/search.js');
-const Results = require('./gameComponents/results.js')
-
+const Results = require('./gameComponents/results.js');
 const auth = require('./auth');
 const moment = require('moment');
-const _ = require('underscore')
-const d3Test = require('./d3');
-const $ = require('jquery')
-
-
+const _ = require('underscore');
+const $ = require('jquery');
 
 const App = React.createClass({
+
   getInitialState : function() {
     return {
       loggedIn: auth.loggedIn(),
@@ -51,7 +46,6 @@ const App = React.createClass({
           this.state.photos[el.image] = el;
         })
         this.setState({photos : this.state.photos})
-        console.log(this.state.photos)
     })
   },
 
@@ -68,15 +62,17 @@ const App = React.createClass({
           <nav>
             <ul id="nav">
               <li>
+                <div>
+                <Link to="/">Home</Link>
+                </div>
                 {this.state.loggedIn ? (
                   <div>
-                    <a className="button"><Link to="/logout"> Log out </Link></a>
-                    <a><Link to="/search">Start a Game</Link></a>
+                    <Link to="/logout"> Log Out </Link>
                   </div>
                 ) : (
                   <div>
-                    <a><Link to="/login"> Sign In </Link></a>
-                    <a><Link to="/signup"> Sign Up </Link></a>
+                    <Link to="/login"> Sign In </Link>
+                    <Link to="/signup"> Sign Up </Link>
                   </div>
                 )}
               </li>
@@ -86,11 +82,14 @@ const App = React.createClass({
         {this.props.children ||
           <div id="home">
             <p>You are {!this.state.loggedIn && 'not'} logged in.</p>
-
+            {this.state.loggedIn ? (
+              <div><Link to="/search">Start a Game</Link></div>
+            ) : (
+              <p>Log in to start a game</p>
+            )}
               <div className="grid">
                 {Object.keys(this.state.photos).map(this.renderImages)}
               </div>
-
           </div>}
     </div>
     )
@@ -99,9 +98,7 @@ const App = React.createClass({
 
 const OneImage = React.createClass({
 
-
   render: function() {
-
     return(
       <div className="grid-item">
         <img src={this.props.details.image} />
@@ -109,6 +106,7 @@ const OneImage = React.createClass({
     )
   }
 })
+
 
 function requireAuth(nextState, replace) {
   if (!auth.loggedIn()) {
@@ -118,7 +116,6 @@ function requireAuth(nextState, replace) {
     })
   }
 }
-
 
 
 render((

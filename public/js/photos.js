@@ -6,7 +6,7 @@ const $photos = $('#photos');
 const $captions = $('#captions');
 
 function showPhotos(data) {
-
+  console.log('im in showPhotos')
   var correctMatches = 0;
 
   for(var i=0; i < data.length; i++){
@@ -29,19 +29,21 @@ function showPhotos(data) {
      var $textbox = $('<div>');
      $textbox.text(shuffled[i].caption)
      $textbox.addClass('captions').data('number', shuffled[i].id).attr('id', shuffled[i].id).draggable({
-       containment: '#j-container',
+      //  containment: '#j-container',
        cursor: 'move',
        snap: '#j-container',
-       revert: true
+       revert: true,
      });
      $captions.append($textbox);
    }
 
   function handleCaptionDrop (event, ui) {
-     var target = $(this).data('number')
-     var caption = ui.draggable.data('number')
+     var target = $(this).data('number');
+     var caption = ui.draggable.data('number');
 
      if (target == caption) {
+       $(this).append(ui.draggable);
+       $(this).css("height", "100%");
        ui.draggable.addClass( 'correct' );
        ui.draggable.draggable( 'disable' );
        $(this).droppable( 'disable' );
