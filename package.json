@@ -5,7 +5,9 @@
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "bundle": "watchify -t [ babelify --presets [ react es2015 ] ] public/js/script.js -o public/js/bundle.js -d"
+    "start": "node server.js",
+    "bundle": "watchify -t [ babelify --presets [ react es2015 ] ] public/js/script.js -o public/js/bundle.js -d",
+    "postinstall": "./node_modules/browserify/bin/cmd.js -t [ babelify --presets [ react es2015 ] ] -t uglifyify -d -p [ minifyify --no-map ] ./public/js/script.js -o ./public/js/bundle.js"
   },
   "repository": {
     "type": "git",
@@ -31,6 +33,7 @@
     "jquery-ui": "^1.10.5",
     "jsonwebtoken": "^5.7.0",
     "masonry-layout": "^4.0.0",
+    "minifyify": "^7.3.3",
     "moment": "^2.12.0",
     "morgan": "^1.7.0",
     "path": "^0.12.7",
@@ -39,6 +42,7 @@
     "react-dom": "^0.14.8",
     "react-router": "^2.0.1",
     "request": "^2.69.0",
+    "uglifyify": "^3.0.1",
     "underscore": "^1.8.3",
     "watchify": "^3.7.0"
   }
