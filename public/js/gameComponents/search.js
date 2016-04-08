@@ -8,7 +8,8 @@ const Link = require('react-router').Link
 const Results = require('./results')
 
 const $search = $('#search')
-const $jcontainer = $('#j-container')
+const $captions = $('#captions')
+const $photos = $('#photos')
 
 const Search = React.createClass({
 
@@ -18,6 +19,13 @@ const Search = React.createClass({
       section: '',
       secondsElapsed : 0
     }
+  },
+
+  componentWillUnmount : function() {
+    $search.show()
+    clearInterval(this.interval)
+    $captions.empty()
+    $photos.empty()
   },
 
   handleSearch:function(event){
@@ -57,7 +65,6 @@ const Search = React.createClass({
         game: game[0].id
       }
     }).done((data)=>{
-      console.log(data)
         localStorage.game = data[0].game_id
         this.state.photos = data
         this.setState({photos : this.state.photos})
@@ -93,15 +100,14 @@ const Search = React.createClass({
         game: localStorage.game
       }
     }).done((data)=>{
-      this.state.section = <Link to="results"> Nice Job! See How Your Score Stacks Up Against Others and Get More Information About The Photos You Saw </Link>
-      this.setState({section : this.state.section})
-      $jcontainer.empty()
+      this.state.section = <p>Click below for results and more information related to the photos from your game <Link to="results"> Results </Link></p>
+      this.state.secondsElapsed = ''
+      this.setState({section : this.state.section,
+                     secondsElapsed : this.state.secondsElapsed})
     })
   },
 
-  componentWillUnmount : function() {
-    $search.show()
-  },
+
 
   render:function(){
     return (
