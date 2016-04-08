@@ -4,13 +4,17 @@ dotenv.load();
 const bcrypt = require('bcrypt');
 const salt = bcrypt.genSaltSync(10);
 
-var cn = {
-  host: process.env.DB_HOST,
-  port: 5432,
-  database: process.env.DB_NAME,
-  user: process.env.DB_USER,
-  password: process.env.DB_PASS
-};
+if(process.env.ENVIRONMENT === 'production') {
+  var cn = process.env.DATABASE_URL
+} else {
+  var cn = {
+    host: process.env.DB_HOST,
+    port: 5432,
+    database: process.env.DB_NAME,
+    user: process.env.DB_USER,
+    password: process.env.DB_PASS
+  };
+}
 
 var db = pgp(cn);
 
