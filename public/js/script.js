@@ -9,10 +9,12 @@ const Login = require('./authComponents/login.js');
 const Logout = require('./authComponents/logout.js');
 const Search = require('./gameComponents/search.js');
 const Results = require('./gameComponents/results.js');
+const Profile = require('./gameComponents/profile.js');
 const auth = require('./auth');
 const moment = require('moment');
 const _ = require('underscore');
 const $ = require('jquery');
+// const tipsy = require('./tipsy.js')
 
 const App = React.createClass({
 
@@ -40,12 +42,14 @@ const App = React.createClass({
       url: '/home',
       type: 'GET'
     }).done((nytdata) => {
+
       var data = _.shuffle(nytdata)
       saved = data
       saved.forEach((el) => {
           this.state.photos[el.image] = el;
         })
         this.setState({photos : this.state.photos})
+        console.log(this.state.photos)
     })
   },
 
@@ -58,7 +62,6 @@ const App = React.createClass({
   render : function() {
     return (
       <div className="container">
-        <header>
           <nav>
             <ul id="nav">
               <li>
@@ -67,6 +70,7 @@ const App = React.createClass({
                 </div>
                 {this.state.loggedIn ? (
                   <div>
+                    <Link to="/profile"> Profile & Stats</Link>
                     <Link to="/logout"> Log Out </Link>
                   </div>
                 ) : (
@@ -78,7 +82,7 @@ const App = React.createClass({
               </li>
             </ul>
           </nav>
-        </header>
+
         {this.props.children ||
           <div id="home">
             <p>You are {!this.state.loggedIn && 'not'} logged in.</p>
@@ -100,7 +104,7 @@ const OneImage = React.createClass({
 
   render: function() {
     return(
-      <div className="grid-item">
+      <div className="grid-item" title={this.props.details.headline}>
         <img src={this.props.details.image} />
       </div>
     )
@@ -126,6 +130,7 @@ render((
       <Route path="signup" component={SignUp} />
       <Route path="search" component={Search} onEnter={requireAuth} />
       <Route path="results" component={Results} onEnter={requireAuth} />
+      <Route path="profile" component={Profile} onEnter={requireAuth} />
     </Route>
   </Router>
 ), document.getElementById('container'))

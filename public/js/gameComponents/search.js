@@ -33,7 +33,7 @@ const Search = React.createClass({
     var word = this.refs.word.value
     this.startGame(word)
     this.refs.searchForm.reset()
-    this.state.section = word
+    this.state.section = word.toUpperCase()
     this.setState({section : this.state.section})
     $('#search').hide()
   },
@@ -105,16 +105,21 @@ const Search = React.createClass({
       this.setState({section : this.state.section,
                      secondsElapsed : this.state.secondsElapsed})
     })
+    $captions.empty()
+    $photos.empty()
   },
 
 
 
   render:function(){
     return (
-    <div>
+    <div className="container">
       <div id="search">
+        <p className="instructions">Select a New York Times section title from the drop-down menu to initiate the image-caption matching game.<br></br>
+        Press start when you are ready - the timer will begin ticking as soon as all of the images are loaded!<br></br>
+        The timer will stop once you make your final match.</p><br></br>
         <form ref="searchForm" onSubmit={this.handleSearch}>
-          <label htmlFor="word">select a NYT section</label>
+
           <select id="word" ref="word">
             <option defaultValue="">Select Below</option>
             <option value="home">Home</option>
@@ -133,12 +138,16 @@ const Search = React.createClass({
             <option value="travel">Travel</option>
             <option value="magazine">Magazine</option>
             <option value="realestate">Real Estate</option>
-          </select>
+          </select><br></br>
           <button id="SearchButton" type="submit"> START! </button>
         </form>
       </div>
-      <h1>{this.state.section}</h1>
-      <h3>Seconds Elapsed: {this.state.secondsElapsed}</h3>
+      <div className="section">
+        <h1>{this.state.section}</h1>
+      </div>
+      <div className="timer">
+        <h3>Timer (seconds): {this.state.secondsElapsed}</h3>
+      </div>
     </div>
     )
   },

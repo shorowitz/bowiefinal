@@ -11,6 +11,10 @@ const expressJWT = require('express-jwt');
 const jwt = require('jsonwebtoken');
 const key = process.env.KEY;
 
+games.get('/start', expressJWT({secret: SECRET}), db.getUserData, (req,res) => {
+  res.send(res.data)
+})
+
 games.post('/start', expressJWT({secret: SECRET}), db.createGame, (req, res) => {
   res.send(res.data)
 });

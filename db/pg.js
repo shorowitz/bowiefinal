@@ -75,9 +75,11 @@ function getGameInfo (req, res, next) {
 }
 
 function getBestSectionScore (req, res, next) {
-  db.any(`SELECT * FROM games
-    WHERE keyword = $1
-    AND score IS NOT NULL
+  db.any(`SELECT users.username, games.score, games.keyword FROM users
+    INNER JOIN games
+    ON users.id = games.user_id
+    WHERE games.keyword = $1
+    AND games.score IS NOT NULL
     ORDER BY score ASC
     LIMIT 1;`, [req.params.section])
   .then(function(data) {
@@ -102,9 +104,12 @@ function getArticleInfo (req, res, next) {
 }
 
 function getUserData (req, res, next) {
-  db.any(`SELECT * FROM games
-    WHERE user_id = $1
-    AND score IS NOT NULL;`, [req.user.id])
+  db.any(`SELECT users.username, games.score, games.keyword FROM users
+    INNER JOIN games
+    ON users.id = games.user_id
+    WHERE users.id = $1
+    AND games.score IS NOT NULL
+    ORDER BY keyword;`, [req.user.id])
   .then(function(data) {
     res.data = data;
     next();

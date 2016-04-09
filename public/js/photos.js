@@ -15,7 +15,7 @@ function showPhotos(data) {
     $photos.append($box);
 
     var $target = $('<div>');
-    $target.addClass('target').data('number', data[i].id).attr('id', data[i].id).droppable({
+    $target.addClass('target').data('number', data[i].id).droppable({
       accept: '.captions',
       hoverClass: 'hovered',
       drop: handleCaptionDrop
@@ -28,27 +28,49 @@ function showPhotos(data) {
   for (var i=0; i < shuffled.length; i++) {
      var $textbox = $('<div>');
      $textbox.text(shuffled[i].caption)
-     $textbox.addClass('captions').data('number', shuffled[i].id).attr('id', shuffled[i].id).draggable({
-      //  containment: '#j-container',
+     $textbox.addClass('captions').data('number', shuffled[i].id).draggable({
+       containment: '#j-container',
        cursor: 'move',
-       snap: '#j-container',
-       revert: true,
+       revert: true
      });
+
      $captions.append($textbox);
    }
 
+   $captions.css({
+     'position': 'sticky',
+      'top': '0'
+    })
+  // var $window    = $(window);
+  // var offset     = $captions.offset();
+  // var topPadding = 0;
+  //
+  // $window.scroll(function() {
+  //   if ($window.scrollTop() > offset.top) {
+  //     $captions.stop().animate({
+  //     marginTop: $window.scrollTop() - offset.top + topPadding
+  //     });
+  //   } else {
+  //       $captions.stop().animate({
+  //       marginTop: 0
+  //       });
+  //   }
+  // });
+
   function handleCaptionDrop (event, ui) {
+
      var target = $(this).data('number');
      var caption = ui.draggable.data('number');
 
      if (target == caption) {
-       $(this).append(ui.draggable);
-       $(this).css("height", "100%");
+       $(this).css({
+       'height': ui.draggable.height() });
        ui.draggable.addClass( 'correct' );
        ui.draggable.draggable( 'disable' );
-       $(this).droppable( 'disable' );
-       ui.draggable.position( { of: $(this), my: 'left top', at: 'left top' } );
+       ui.draggable.position( { of: $(this), my: 'center center', at: 'center center'  } );
        ui.draggable.draggable( 'option', 'revert', false );
+      //  $(this).append(ui.draggable);
+       $(this).droppable( 'disable' );
        correctMatches++
      }
 
