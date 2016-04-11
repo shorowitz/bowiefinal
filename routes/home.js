@@ -14,7 +14,6 @@ const _ = require('underscore');
 home.get('/', callNYT, (req,res) => {
   var today = moment().format("YYYYMMDD")
   res.data = _.flatten(req.allData)
-  console.log(res.data)
   res.send(res.data)
 })
 //

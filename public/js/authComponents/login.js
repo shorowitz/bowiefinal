@@ -35,14 +35,20 @@ const Login = React.createClass({
 
   render : function () {
     return (
-      <form onSubmit={this.handleSubmit}>
-        <label><input ref="email" type="email" placeholder="email" /></label>
-        <label><input ref="pass" type="password" placeholder="password" /></label><br />
-        <button type="submit">login</button>
+      <div id="signin">
+        <h1>Sign In</h1>
+        <h3>Nice to see you again.</h3>
+        <form id onSubmit={this.handleSubmit}>
+          <label><b>Email</b></label><br></br>
+          <input ref="email" type="email" placeholder="email" /><br></br><br></br>
+          <label><b>Password</b></label><br></br>
+          <input ref="pass" type="password" placeholder="password" /><br></br><br></br>
+          <button type="submit">Sign In</button>
         {this.state.error && (
           <p>Bad login information</p>
         )}
       </form>
+      </div>
     )
   }
 })

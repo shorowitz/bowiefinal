@@ -45,7 +45,7 @@ const Results = React.createClass({
       var bestScore = data[0].score
       var minutes = "0" + Math.floor(bestScore / 60)
       var seconds = "0" + (bestScore - minutes * 60)
-      this.state.bestScore = minutes.substr(-2) + ":" + seconds.substr(-2) + ", User: " + data[0].username
+      this.state.bestScore = minutes.substr(-2) + ":" + seconds.substr(-2) + " - " + data[0].username
       this.setState({bestScore: this.state.bestScore})
       this.getArticles()
     })
@@ -65,7 +65,6 @@ const Results = React.createClass({
           this.state.articles[el.id] = el;
         })
         this.setState({articles : this.state.articles})
-        console.log(this.state.articles)
     })
   },
 
@@ -80,7 +79,7 @@ const Results = React.createClass({
     return (
       <div>
         <h1> Your Time - {this.state.score}</h1>
-        <h2>Highest Score<br></br> for the {this.state.section} section is:<br></br> {this.state.bestScore}</h2>
+        <h2> Current best time for the {this.state.section.toUpperCase()} section is:<br></br> {this.state.bestScore}</h2>
         <div> {Object.keys(this.state.articles).map(this.renderArticle)}</div>
       </div>
     )
@@ -99,8 +98,8 @@ const OneArticle = React.createClass({
             </div>
             <div className="back face center">
               <h3><a href={this.props.details.article_url}>{this.props.details.headline}</a></h3>
-              <p>{this.props.details.abstract}</p>
-              <p>{this.props.details.caption}</p>
+              <h4>{this.props.details.abstract}</h4>
+              <h5>{this.props.details.caption}</h5>
             </div>
           </div>
         </div>
