@@ -97,8 +97,8 @@ const App = React.createClass({
                 {this.state.loggedIn ? (
                   <button id="start"><Link to="/search">Start a Game</Link></button>
                   ) : (
-                      <p>Dedicated to the images of the <i>New York Times</i>.<br></br><br></br>
-                    Sign up for a free account and sign in to play the fun caption-to-photo matching game!</p>
+
+                    <p>Sign up for a free account and sign in to play the fun <i>New York Times</i> caption-to-photo matching game!</p>
                 )}
             </div>
               <div className="grid">

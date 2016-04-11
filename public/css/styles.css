@@ -202,7 +202,7 @@ nav {
 
 #start {
   margin-top: 20px;
-  font-size: 24px;
+  font-size: 18px;
   background-color:#3CB371;
   padding:10px;
 }
@@ -222,6 +222,7 @@ nav {
   z-index: 1;
   padding: 6px;
   display: inline-block;
+
 }
 #f1_container {
   perspective: 1000;
@@ -231,6 +232,7 @@ nav {
   height: 100%;
   transform-style: preserve-3d;
   transition: all 1.0s linear;
+  /*background-color: #C0C0C0;*/
 }
 #f1_container:hover #f1_card {
   transform: rotateY(180deg);
@@ -319,4 +321,32 @@ td:nth-child(2) {
 
 #search {
     margin-top: 20px;
+}
+
+.back h3 {
+  padding: 10px;
+  font-weight: bolder;
+}
+
+.back h3 a{
+  color: blue;
+}
+
+.back h4 {
+  margin-bottom: 20px;
+}
+.back h5 {
+  font-style: italic;
+  font-size: 12px;
+}
+
+#logout {
+  margin: 0 auto;
+  text-align: center;
+  width: 500px;
+}
+
+#logout img {
+  max-width: 100%;
+  max-height: 100%;
 }

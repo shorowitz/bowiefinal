@@ -7,7 +7,12 @@ const Logout = React.createClass({
   },
 
   render : function() {
-    return <p>You are now logged out</p>
+    return (
+      <div id="logout">
+        <h1>You are now logged out</h1>
+        <img src='../../peace.jpeg'/>
+      </div>
+      )
   }
 })
 
