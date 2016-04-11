@@ -100,8 +100,8 @@ const Search = React.createClass({
         game: localStorage.game
       }
     }).done((data)=>{
-      this.state.section = <p>Click below for results and more information related to the photos from your game <Link to="results"> Results </Link></p>
-      this.state.secondsElapsed = ''
+      this.state.section = <p>Well done! <br></br><Link to="results"> Results </Link></p>
+      this.state.secondsElapsed = 0
       this.setState({section : this.state.section,
                      secondsElapsed : this.state.secondsElapsed})
     })
@@ -115,13 +115,14 @@ const Search = React.createClass({
     return (
     <div className="container">
       <div id="search">
+        <h1>Ready to Play?</h1>
         <p className="instructions">Select a New York Times section title from the drop-down menu to initiate the image-caption matching game.<br></br>
         Press start when you are ready - the timer will begin ticking as soon as all of the images are loaded!<br></br>
-        The timer will stop once you make your final match.</p><br></br>
+      Drag a caption to the photo you believe it belongs to. If the match correct, the caption will stick. <br></br>
+        The timer will stop once you make your final match. Have fun!</p><br></br>
         <form ref="searchForm" onSubmit={this.handleSearch}>
 
           <select id="word" ref="word">
-            <option defaultValue="">Select Below</option>
             <option value="home">Home</option>
             <option value="world">World</option>
             <option value="national">National</option>
@@ -138,7 +139,7 @@ const Search = React.createClass({
             <option value="travel">Travel</option>
             <option value="magazine">Magazine</option>
             <option value="realestate">Real Estate</option>
-          </select><br></br>
+          </select><br></br><br></br>
           <button id="SearchButton" type="submit"> START! </button>
         </form>
       </div>
@@ -146,7 +147,7 @@ const Search = React.createClass({
         <h1>{this.state.section}</h1>
       </div>
       <div className="timer">
-        <h3>Timer (seconds): {this.state.secondsElapsed}</h3>
+        <h3 >Timer (seconds): {this.state.secondsElapsed}</h3>
       </div>
     </div>
     )

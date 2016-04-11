@@ -1,9 +1,11 @@
 const $ = require('jquery');
 require('jquery-ui');
 const _ = require('underscore');
+const sticky = require('../sticky/jquery.sticky.js')
 
 const $photos = $('#photos');
 const $captions = $('#captions');
+
 
 function showPhotos(data) {
   console.log('im in showPhotos')
@@ -29,7 +31,7 @@ function showPhotos(data) {
      var $textbox = $('<div>');
      $textbox.text(shuffled[i].caption)
      $textbox.addClass('captions').data('number', shuffled[i].id).draggable({
-       containment: '#j-container',
+       helper: 'clone',
        cursor: 'move',
        revert: true
      });
@@ -37,25 +39,8 @@ function showPhotos(data) {
      $captions.append($textbox);
    }
 
-   $captions.css({
-     'position': 'sticky',
-      'top': '0'
-    })
-  // var $window    = $(window);
-  // var offset     = $captions.offset();
-  // var topPadding = 0;
-  //
-  // $window.scroll(function() {
-  //   if ($window.scrollTop() > offset.top) {
-  //     $captions.stop().animate({
-  //     marginTop: $window.scrollTop() - offset.top + topPadding
-  //     });
-  //   } else {
-  //       $captions.stop().animate({
-  //       marginTop: 0
-  //       });
-  //   }
-  // });
+
+  //  $captions.sticky({topSpacing:0});
 
   function handleCaptionDrop (event, ui) {
 
@@ -63,14 +48,13 @@ function showPhotos(data) {
      var caption = ui.draggable.data('number');
 
      if (target == caption) {
-       $(this).css({
-       'height': ui.draggable.height() });
        ui.draggable.addClass( 'correct' );
        ui.draggable.draggable( 'disable' );
        ui.draggable.position( { of: $(this), my: 'center center', at: 'center center'  } );
+       $( ".selector" ).sortable( "option", "appendTo", document.body );
        ui.draggable.draggable( 'option', 'revert', false );
-      //  $(this).append(ui.draggable);
        $(this).droppable( 'disable' );
+
        correctMatches++
      }
 

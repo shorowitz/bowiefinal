@@ -21,7 +21,8 @@ const App = React.createClass({
   getInitialState : function() {
     return {
       loggedIn: auth.loggedIn(),
-      photos: {}
+      photos: {},
+      today: ''
     }
   },
 
@@ -34,6 +35,9 @@ const App = React.createClass({
   componentWillMount : function() {
     auth.onChange = this.updateAuth
     auth.login()
+    var now = moment().format("MMMM Do YYYY")
+    this.state.today = now
+    this.setState({today : this.state.today})
   },
 
   componentDidMount : function () {
@@ -49,7 +53,6 @@ const App = React.createClass({
           this.state.photos[el.image] = el;
         })
         this.setState({photos : this.state.photos})
-        console.log(this.state.photos)
     })
   },
 
@@ -58,6 +61,7 @@ const App = React.createClass({
     <OneImage key={key} index={key} details={this.state.photos[key]} />
     )
   },
+
 
   render : function() {
     return (
@@ -70,7 +74,7 @@ const App = React.createClass({
                 </div>
                 {this.state.loggedIn ? (
                   <div>
-                    <Link to="/profile"> Profile & Stats</Link>
+                    <Link to="/profile"> Your Stats</Link>
                     <Link to="/logout"> Log Out </Link>
                   </div>
                 ) : (
@@ -85,15 +89,23 @@ const App = React.createClass({
 
         {this.props.children ||
           <div id="home">
-            <p>You are {!this.state.loggedIn && 'not'} logged in.</p>
-            {this.state.loggedIn ? (
-              <div><Link to="/search">Start a Game</Link></div>
-            ) : (
-              <p>Log in to start a game</p>
-            )}
+
+              <h1>Images of the Times</h1>
+
+            <div id="welcome">
+              <div id="welcome-2">
+                {this.state.loggedIn ? (
+                  <button id="start"><Link to="/search">Start a Game</Link></button>
+                  ) : (
+                      <p>Dedicated to the images of the <i>New York Times</i>.<br></br><br></br>
+                    Sign up for a free account and sign in to play the fun caption-to-photo matching game!</p>
+                )}
+            </div>
               <div className="grid">
+                <h3>Today, <i>{this.state.today}</i>, in images...</h3>
                 {Object.keys(this.state.photos).map(this.renderImages)}
               </div>
+            </div>
           </div>}
     </div>
     )
