@@ -1,10 +1,6 @@
-# {App Name} #
+# Images of the Times #
 
 ### PRODUCTION LINK - https://nyt-in-images.herokuapp.com/ ###
-
-### MISSION STATEMENT ###
-
-### INTRODUCTION ###
 
 ### USER STORIES ###
 
